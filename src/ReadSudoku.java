@@ -11,8 +11,8 @@ public class ReadSudoku {
         reader = new BufferedReader(new FileReader(filepath));
     }
 
-    public ArrayList<Integer>[][] getSudokuGrid() throws IOException {
-        ArrayList<Integer>[][] sudoku = new ArrayList[9][9];
+    public Sudoku getSudokuGrid() throws IOException {
+        Sudoku sudoku = new Sudoku();
         String line;
         int currentRow = 0;
         int currentColumn;
@@ -22,8 +22,6 @@ public class ReadSudoku {
             for(int i = 0; i < line.length(); i++){
                 switch (line.charAt(i)) {
                     case ' ':
-                        current = new ArrayList<Integer>();
-                        sudoku[currentRow][currentColumn] = current;
                         currentColumn++;
                         break;
                     case '|':
@@ -35,7 +33,8 @@ public class ReadSudoku {
                     default:
                         current = new ArrayList<Integer>();
                         current.add(Character.getNumericValue(line.charAt(i)));
-                        sudoku[currentRow][currentColumn] = current;
+                        sudoku.setValues(currentRow, currentColumn, current);
+                        sudoku.setFinal(currentRow, currentColumn, true);
                         currentColumn++;
                         break;
                 }
