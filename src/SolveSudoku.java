@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -17,5 +16,8 @@ public class SolveSudoku {
         sudoku = reader.getSudokuGrid();
 
         System.out.println("Läst in sudoku");
+        System.out.println("3:" + sudoku.getFirstValue(0, 2));
+        System.out.println("5:" + sudoku.getFirstValue(7, 4));
+        System.out.println("tom:" + sudoku.getFirstValue(5, 8));
     }
 }

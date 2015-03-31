@@ -6,13 +6,14 @@ import java.util.ArrayList;
  */
 public class ReadSudoku {
     BufferedReader reader;
+    private Sudoku sudoku;
 
     ReadSudoku(String filepath) throws IOException {
         reader = new BufferedReader(new FileReader(filepath));
     }
 
     public Sudoku getSudokuGrid() throws IOException {
-        Sudoku sudoku = new Sudoku();
+        sudoku = new Sudoku();
         String line;
         int currentRow = 0;
         int currentColumn;
@@ -32,9 +33,10 @@ public class ReadSudoku {
                         break;
                     default:
                         current = new ArrayList<Integer>();
-                        current.add(Character.getNumericValue(line.charAt(i)));
+                        int currentNumber = Character.getNumericValue(line.charAt(i));
+                        current.add(currentNumber);
                         sudoku.setValues(currentRow, currentColumn, current);
-                        sudoku.setFinal(currentRow, currentColumn, true);
+                        sudoku.setFinal(currentRow, currentColumn, currentNumber);
                         currentColumn++;
                         break;
                 }
@@ -42,6 +44,18 @@ public class ReadSudoku {
             if(currentColumn > 0)
                 currentRow++;
         }
+
+        initialCheck(sudoku);
+
         return sudoku;
+    }
+
+    // Removes values not allowed by initial data from user
+    private void initialCheck(Sudoku sudoku) {
+        for(int row = 0; row < 9; row++)
+            for(int column = 0; column < 9; column++)
+                if(sudoku.isFinal(row, column)) {
+                    sudoku.removeOthers(row, column, sudoku.getFirstValue(row, column));
+                }
     }
 }
