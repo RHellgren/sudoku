@@ -59,26 +59,45 @@ public class SudokuGrid {
         }
 
         // Remove from square
-        int square = this.getSquare(row, column);
-        int upperLim = square + 3;
-        for(int squareRow = square; squareRow < upperLim; squareRow++)
-            for (int squareColumn = square; squareColumn < upperLim; squareColumn++)
-                if(sudoku[squareRow][squareColumn].indexOf(value) != -1)
+        int[] limits = this.getSquareLimits(row, column);
+        int lowerRowLim = limits[0];
+        int upperRowLim = limits[1];
+        int lowerColLim = limits[2];
+        int upperColLim = limits[3];
+
+        for(int squareRow = lowerRowLim; squareRow < upperRowLim; squareRow++)
+            for (int squareColumn = lowerColLim; squareColumn < upperColLim; squareColumn++)
+                if(sudoku[squareRow][squareColumn].indexOf(value) != -1 && row != squareRow && column != squareColumn) {
+                    // if it has not yet been removed, and it's not the place itself, then remove
                     sudoku[squareRow][squareColumn].remove(sudoku[squareRow][squareColumn].indexOf(value));
+                }
     }
 
-    private int getSquare(int row, int column) {
-        int square = 0;
-        if (row > 4 && row < 7)
-            square += 1;
-        else
-            square += 2;
+    private int[] getSquareLimits(int row, int column) {
+        int[] limits = new int[4];
 
-        if(column > 4 && column < 7)
-            square += 1;
-        else
-            square += 2;
+        if(row <= 2) {
+            limits[0] = 0;
+            limits[1] = 3;
+        } else if(row >= 3 && row <= 5) {
+            limits[0] = 3;
+            limits[1] = 6;
+        } else {
+            limits[0] = 6;
+            limits[1] = 9;
+        }
 
-        return square;
+        if(column <= 2) {
+            limits[2] = 0;
+            limits[3] = 3;
+        } else if(column >= 3 && column <= 5) {
+            limits[2] = 3;
+            limits[3] = 6;
+        } else {
+            limits[2] = 6;
+            limits[3] = 9;
+        }
+
+        return limits;
     }
 }

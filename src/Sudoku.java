@@ -15,9 +15,12 @@ public class Sudoku {
         ReadSudoku reader = new ReadSudoku(filePath);
         sudokuGrid = reader.getSudokuGrid();
 
-        System.out.println("Läst in sudoku");
-        System.out.println("3:" + sudokuGrid.getFirstValue(0, 2));
-        System.out.println("5:" + sudokuGrid.getFirstValue(7, 4));
-        System.out.println("tom:" + sudokuGrid.getFirstValue(5, 8));
+        SudokuSolver solver = new SudokuSolver();
+
+        SudokuPrinter printer = new SudokuPrinter();
+
+        //solver.solve(sudokuGrid);
+
+        printer.print(sudokuGrid);
     }
 }
