@@ -6,14 +6,14 @@ import java.util.ArrayList;
  */
 public class ReadSudoku {
     BufferedReader reader;
-    private Sudoku sudoku;
+    private SudokuGrid sudokuGrid;
 
     ReadSudoku(String filepath) throws IOException {
         reader = new BufferedReader(new FileReader(filepath));
     }
 
-    public Sudoku getSudokuGrid() throws IOException {
-        sudoku = new Sudoku();
+    public SudokuGrid getSudokuGrid() throws IOException {
+        sudokuGrid = new SudokuGrid();
         String line;
         int currentRow = 0;
         int currentColumn;
@@ -35,8 +35,8 @@ public class ReadSudoku {
                         current = new ArrayList<Integer>();
                         int currentNumber = Character.getNumericValue(line.charAt(i));
                         current.add(currentNumber);
-                        sudoku.setValues(currentRow, currentColumn, current);
-                        sudoku.setFinal(currentRow, currentColumn, currentNumber);
+                        sudokuGrid.setValues(currentRow, currentColumn, current);
+                        sudokuGrid.setFinal(currentRow, currentColumn, currentNumber);
                         currentColumn++;
                         break;
                 }
@@ -45,17 +45,17 @@ public class ReadSudoku {
                 currentRow++;
         }
 
-        initialCheck(sudoku);
+        initialCheck(sudokuGrid);
 
-        return sudoku;
+        return sudokuGrid;
     }
 
     // Removes values not allowed by initial data from user
-    private void initialCheck(Sudoku sudoku) {
+    private void initialCheck(SudokuGrid sudokuGrid) {
         for(int row = 0; row < 9; row++)
             for(int column = 0; column < 9; column++)
-                if(sudoku.isFinal(row, column)) {
-                    sudoku.removeOthers(row, column, sudoku.getFirstValue(row, column));
+                if(sudokuGrid.isFinal(row, column)) {
+                    sudokuGrid.removeOthers(row, column, sudokuGrid.getFirstValue(row, column));
                 }
     }
 }
