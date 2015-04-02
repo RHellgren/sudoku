@@ -19,7 +19,7 @@ public class Sudoku {
 
         SudokuPrinter printer = new SudokuPrinter();
 
-        //solver.solve(sudokuGrid);
+        solver.solve(sudokuGrid);
 
         printer.print(sudokuGrid);
     }

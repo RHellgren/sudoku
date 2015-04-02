@@ -12,11 +12,21 @@ public class SudokuSolver {
         int safety = 0;
 
         ArrayList<int[]> singles;
+        ArrayList<Integer> current;
+
         while(!finished) {
             singles = findSingles(sudokuGrid);
 
-            for(int[] single : singles)
-                sudokuGrid.setFinal(single[0], single[1], single[2]);
+            for(int[] single : singles) {
+                current = new ArrayList<Integer>();
+                int row = single[0];
+                int column = single[1];
+                int value = single[2];
+                current.add(value);
+                sudokuGrid.setValues(row, column, current);
+                sudokuGrid.setFinal(row, column, value);
+                sudokuGrid.removeOthers(row, column, value);
+            }
 
             if(checkIfFinished(sudokuGrid))
                 finished = true;
