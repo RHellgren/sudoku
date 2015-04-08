@@ -18,9 +18,11 @@ public class Sudoku {
         SudokuSolver solver = new SudokuSolver();
 
         SudokuPrinter printer = new SudokuPrinter();
+        SudokuToFile toFile = new SudokuToFile();
 
         solver.solve(sudokuGrid);
 
         printer.print(sudokuGrid);
+        toFile.writeFile(sudokuGrid, filePath);
     }
 }
