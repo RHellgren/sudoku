@@ -64,4 +64,4 @@ crashlytics-build.properties
 hs_err_pid*
 
 # don't add solved
-*.solved
+*solved
