@@ -43,6 +43,17 @@ public class SudokuGrid {
         this.setValues(row, column, finalArray);
     }
 
+    public int numFinals() {
+        int numFinals = 0;
+        for(int row=0; row < 9; row++) {
+            for(int column=0; column < 9; column++) {
+                if(isFinal(row, column))
+                    numFinals++;
+            }
+        }
+        return numFinals;
+    }
+
     public boolean isFinal(int row, int column) {
         return finalValue[row][column];
     }
