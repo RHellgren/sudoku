@@ -67,4 +67,11 @@ public class SudokuSolver {
 
         return finished;
     }
+
+    private ArrayList checkSquares(SudokuGrid sudokuGrid) {
+        ArrayList<int[]> singledOut = new ArrayList<int[]>();
+
+
+        return singledOut;
+    }
 }
