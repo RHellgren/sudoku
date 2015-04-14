@@ -17,7 +17,7 @@ public class SudokuSolver {
         ArrayList<int[]> singles;
         ArrayList<Integer> current;
 
-        int method = 0; //0 is find singles, 1 is search in squares
+        int method = 1; //0 is find singles, 1 is search in squares, 2 search in rows, 3 search in columns
 
         while(!finished) {
             switch(method) {
