@@ -7,9 +7,11 @@ public class SudokuSolver {
     SudokuSolver() {}
 
     public SudokuGrid solve(SudokuGrid sudokuGrid) {
-        float score = 0;
-        boolean finished = false;
+        long startTime = System.nanoTime();
 
+        int startingFinals = sudokuGrid.numFinals();
+        int score = 0;
+        boolean finished = false;
         int safety = 0;
 
         ArrayList<int[]> singles;
@@ -29,10 +31,8 @@ public class SudokuSolver {
                         break;
             }
 
-            //System.out.println("Singles: "+singles.size()+" Finals: "+sudokuGrid.numFinals());
             if(singles.size() == 0) {
-                score += 1;
-                //System.out.println("Switching up strategies");
+                score ++;
                 if(method >= 0 && method <= 2) {
                     method++;
                 } else {
@@ -56,11 +56,40 @@ public class SudokuSolver {
 
             safety++;
             if(safety > 1000) {
-                finished = true;
                 System.out.println("Något är knas");
+                break;
             }
         }
-        System.out.println("Score: "+score);
+        long estimatedTime = System.nanoTime() - startTime;
+
+        System.out.println("Finished: "+(finished ? "yes" : "no"));
+        System.out.println("Number of strategy switches: "+score);
+        System.out.println("Time: "+(estimatedTime/1000)+" microseconds");
+        System.out.println("Number of empty cells: "+(81-sudokuGrid.numFinals()));
+        System.out.println("Cells filled by algorithm: "+(sudokuGrid.numFinals()-startingFinals));
+
+        double doubleScore = (double) score;
+        double finalScore = 7.0;
+
+        if(finished) {
+            if(score <= 4) {
+                finalScore = doubleScore + 1.0 + doubleScore/10.0;
+            } else if(score < 10) {
+                finalScore = 5.4 + doubleScore/3.0;
+            } else {
+                finalScore = 7.0;
+            }
+        } else {
+            double additive = 81.0;
+            additive -= startingFinals;
+            additive = 1 - (sudokuGrid.numFinals()-startingFinals)/additive;
+            additive *= 3;
+
+            finalScore += additive;
+        }
+
+        System.out.println("\nFinal score: "+finalScore+"\n");
+
         return sudokuGrid;
     }
 
@@ -78,38 +107,8 @@ public class SudokuSolver {
     private ArrayList searchInSquare(SudokuGrid sudokuGrid, int square) {
         ArrayList<int[]> singles = new ArrayList<int[]>();
 
-        int startColumn, startRow;
-        switch(square) {
-            case 0: startColumn = 0;
-                    startRow    = 0;
-                    break;
-            case 1: startColumn = 3;
-                    startRow    = 0;
-                    break;
-            case 2: startColumn = 6;
-                    startRow    = 0;
-                    break;
-            case 3: startColumn = 0;
-                    startRow    = 3;
-                    break;
-            case 4: startColumn = 3;
-                    startRow    = 3;
-                    break;
-            case 5: startColumn = 6;
-                    startRow    = 3;
-                    break;
-            case 6: startColumn = 0;
-                    startRow    = 6;
-                    break;
-            case 7: startColumn = 3;
-                    startRow    = 6;
-                    break;
-            case 8: startColumn = 6;
-                    startRow    = 6;
-                    break;
-            default:
-                    return singles;
-        }
+        int startColumn = 3*(square%3);
+        int startRow    = 3*(square/3);
 
         ArrayList[] numPossibles = new ArrayList[10];
         for(int i=0; i <= 9; i++) {
