@@ -11,14 +11,13 @@ public class SudokuSolver {
 
         int givens = sudokuGrid.numFinals();
         int score = 0;
+        int method = 1; //0 is find singles, 1 is search in squares, 2 search in rows, 3 search in columns
         boolean finished = false;
-        int safety = 0;
 
         ArrayList<int[]> singles;
         ArrayList<Integer> current;
 
-        int method = 1; //0 is find singles, 1 is search in squares, 2 search in rows, 3 search in columns
-
+        int safety = 0;
         while(!finished) {
             switch(method) {
                 case 1: singles = searchInSquares(sudokuGrid);
@@ -32,12 +31,16 @@ public class SudokuSolver {
             }
 
             if(singles.size() == 0) {
+                safety++;
+
                 score ++;
                 if(method >= 0 && method <= 2) {
                     method++;
                 } else {
                     method = 0;
                 }
+            } else {
+                safety = 0;
             }
 
             for(int[] single : singles) {
@@ -54,8 +57,7 @@ public class SudokuSolver {
             if(checkIfFinished(sudokuGrid))
                 finished = true;
 
-            safety++;
-            if(safety > 1000) {
+            if(safety >= 4) {
                 System.out.println("Något är knas");
                 break;
             }
