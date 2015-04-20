@@ -9,7 +9,7 @@ public class SudokuSolver {
     public SudokuGrid solve(SudokuGrid sudokuGrid) {
         long startTime = System.nanoTime();
 
-        int startingFinals = sudokuGrid.numFinals();
+        int givens = sudokuGrid.numFinals();
         int score = 0;
         boolean finished = false;
         int safety = 0;
@@ -66,7 +66,7 @@ public class SudokuSolver {
         System.out.println("Number of strategy switches: "+score);
         System.out.println("Time: "+(estimatedTime/1000)+" microseconds");
         System.out.println("Number of empty cells: "+(81-sudokuGrid.numFinals()));
-        System.out.println("Cells filled by algorithm: "+(sudokuGrid.numFinals()-startingFinals));
+        System.out.println("Cells filled by algorithm: "+(sudokuGrid.numFinals()-givens));
 
         double doubleScore = (double) score;
         double finalScore = 7.0;
@@ -81,8 +81,8 @@ public class SudokuSolver {
             }
         } else {
             double additive = 81.0;
-            additive -= startingFinals;
-            additive = 1 - (sudokuGrid.numFinals()-startingFinals)/additive;
+            additive -= givens;
+            additive = 1 - (sudokuGrid.numFinals()-givens)/additive;
             additive *= 3;
 
             finalScore += additive;
