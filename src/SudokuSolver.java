@@ -75,9 +75,7 @@ public class SudokuSolver {
             if(score <= 4) {
                 finalScore = doubleScore*1.1 + 1.0;
             } else if(score < 10) {
-                finalScore = 5.4 + doubleScore/3.0;
-            } else {
-                finalScore = 7.0;
+                finalScore = 3.8 + doubleScore/3.0;
             }
         } else {
             double additive = 81.0;
