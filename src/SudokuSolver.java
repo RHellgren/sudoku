@@ -18,7 +18,7 @@ public class SudokuSolver {
         ArrayList<Integer> current;
 
         int safety = 0;
-        while(!finished) {
+        while(!finished && safety < 4) {
             switch(method) {
                 case 1: singles = searchInSquares(sudokuGrid);
                         break;
@@ -56,11 +56,6 @@ public class SudokuSolver {
 
             if(checkIfFinished(sudokuGrid))
                 finished = true;
-
-            if(safety >= 4) {
-                System.out.println("Något är knas");
-                break;
-            }
         }
         long estimatedTime = System.nanoTime() - startTime;
 
